@@ -1,0 +1,11 @@
+@model Matrices.Models.InfoOp
+
+@if (Model.ErrorMsg!=null)
+{
+    <ul style="list-style-type:disc;">
+    @foreach (string err in Model.ErrorMsg)
+    {
+            <li class="text-danger">@err</li>
+    }
+    </ul>
+}

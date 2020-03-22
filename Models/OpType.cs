@@ -5,8 +5,13 @@ namespace Matrices.Models
         Addition,
         Substraction,
         Multiplication,
-        Transpose,
-        Inverse,
-        Solution
+        TransposeA,
+        TransposeB,
+        InverseA,
+        InverseB,
+        Solution,
+        ResizeA,
+        ResizeB,
+        Swap
     }
 }

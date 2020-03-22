@@ -24,211 +24,121 @@ namespace Matrices.Controllers
         }
 
         [HttpGet]
-        public IActionResult Addition() 
-        {
-            return View();
+        public IActionResult Operation(){
+            return View(new InfoOp{RowA=2,ColA=2,RowB=2,ColB=2, Operation=OpType.ResizeA});
         }
-
         [HttpPost]
-        public IActionResult Addition(InfoMat mat)
-        {
+        public IActionResult Operation(InfoOp op /* InfoAns ans */){
             if(ModelState.IsValid){
-                return View("Gen2Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Addition
-                });
-            }
-            return View(mat);
-        }
-
-        [HttpPost]
-        public IActionResult OpAdd(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                Matrix B = op.Data.FillMat(op.RowA,op.ColA, op.RowA*op.ColA);
-                var C = new MatrixViewModel(){Result = A+B};
-                return View("Result",C);
-            }
-            return View("Gen2Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                RowB = op.RowB, ColB = op.ColB, Operation = OpType.Addition});  
-        }
-
-        [HttpGet]
-        public IActionResult Substraction()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Substraction(InfoMat mat)
-        {
-            if(ModelState.IsValid){
-                return View("Gen2Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Substraction
-                });
-            }
-            return View(mat);
-        }
-
-        [HttpPost]
-        public IActionResult OpSub(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                Matrix B = op.Data.FillMat(op.RowA,op.ColA, op.RowA*op.ColA);
-                var C = new MatrixViewModel(){Result = A-B};
-                return View("Result",C);
-            }
-            return View("Gen2Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                RowB = op.RowB, ColB = op.ColB, Operation = OpType.Substraction});  
-        }
-
-        [HttpGet]
-        public IActionResult Transpose()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Transpose(InfoMat mat)
-        {
-            if(ModelState.IsValid){
-                return View("Gen1Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Transpose
-                });
-            }
-            return View(mat);
-        }
-
-        [HttpPost]
-        public IActionResult OpTran(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                var C = new MatrixViewModel(){Result = ~A};
-                return View("Result",C);
-            }
-            return View("Gen1Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                RowB = 0, ColB = 0,Operation = OpType.Transpose});
-            
-        }
-
-        [HttpGet]
-        public IActionResult Multiplication()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Multiplication(InfoMat mat)
-        {
-            if(ModelState.IsValid){
-                return View("Gen2Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Multiplication
-                });
-            }
-            return View(mat);
-        }
-
-        [HttpPost]
-        public IActionResult OpMul(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                Matrix B = op.Data.FillMat(op.RowB,op.ColB, op.RowA*op.ColA);
-                var C = new MatrixViewModel(){Result = A*B};
-                return View("Result",C);
-            }
-            return View("Gen2Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                RowB = op.RowB, ColB = op.ColB, Operation = OpType.Multiplication});
-        }
-
-        [HttpGet]
-        public IActionResult Inverse()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Inverse(InfoMat mat)
-        {
-            if(ModelState.IsValid){
-                return View("Gen1Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Inverse
-                });
-            }
-            return View(mat);
-        }
-
-        [HttpPost]
-        public IActionResult OpInv(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                Matrix res = !A;
-                if(!res.IsMatOk){
-                    string[] error = {
-                        "Inverse matrix is not possible to obtain.",
-                        "Matrix have dependent rows and is no linearly independent.",
-                    };
-                    return View("Error",error);
+                switch (op.Operation)
+                {
+                    case OpType.ResizeA:{
+                        double[] data = new double[op.RowA*op.ColA+op.RowB*op.ColB];
+                        for (int newd = data.Length-1, former=op.Data.Length-1; newd >= op.RowA*op.ColA ;
+                            newd--, former--)
+                        {
+                            data[newd] = op.Data[former];
+                        }
+                        Matrix A = data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Operation = op.Operation   
+                        });
+                    }
+                    case OpType.ResizeB:{
+                        double[] data = new double[op.RowA*op.ColA+op.RowB*op.ColB];
+                        for (int i = 0; i < op.RowA*op.ColA; i++)
+                        {
+                            data[i] = op.Data[i];
+                        }
+                        Matrix A = data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Operation = op.Operation   
+                        });
+                    }
+                    case OpType.Swap:{
+                        Matrix B = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix A = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=A.Row,ColA=A.Col,RowB=B.Row,ColB=B.Col,
+                            MatrixA = A, MatrixB = B , Operation = op.Operation  
+                        });
+                    }
+                    case OpType.Addition:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = A+B , Operation = op.Operation  
+                        });
+                    }
+                    case OpType.Substraction:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = A-B , Operation = op.Operation  
+                        });
+                    }
+                    case OpType.Multiplication:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = A*B , Operation = op.Operation  
+                        });
+                    }
+                    case OpType.TransposeA:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = ~A, Operation = op.Operation   
+                        });
+                    }
+                    case OpType.TransposeB:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA,0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = ~B, Operation = op.Operation   
+                        });
+                    }
+                    case OpType.InverseA:
+                    case OpType.InverseB:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        Matrix inv = op.Operation==OpType.InverseA?!A:!B;
+                        if(!inv.IsMatOk){
+                            string[] error = {
+                                "Inverse matrix is not possible to obtain.",
+                                "Matrix have dependent rows and is no linearly independent.",
+                            };
+                            /*  */
+                            return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                                MatrixA = A, MatrixB = B, ErrorMsg = error
+                            });
+                        }
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = inv , Operation = op.Operation  
+                        });
+                    }
+                    case OpType.Solution:{
+                        Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
+                        Matrix B = op.Data.FillMat(op.RowB,op.ColB,op.RowA*op.ColA);
+                        Matrix inv = !A;
+                        if(!inv.IsMatOk){
+                            string[] error = {
+                                "Inverse matrix is not possible to obtain.",
+                                "Matrix have dependent rows and is no linearly independent.",
+                            };
+                            return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                                MatrixA = A, MatrixB = B, ErrorMsg = error
+                            });
+                        }
+                        return View(new InfoOp{RowA=op.RowA,ColA=op.ColA,RowB=op.RowB,ColB=op.ColB,
+                            MatrixA = A, MatrixB = B , Result = inv*B, Operation = op.Operation   
+                        });
+                    }
                 }
-                var C = new MatrixViewModel(){Result = res};
-                return View("Result",C);
+                
             }
-            return View("Gen1Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                Operation = OpType.Inverse});
-        }
-
-        [HttpGet]
-        public IActionResult Solution()
-        {
-            return View();
-        }
-        
-        [HttpPost]
-        public IActionResult Solution(InfoMat mat) 
-        {
-            if(ModelState.IsValid){
-                return View("Gen2Mat", new MatrixViewModel(){RowA = mat.RowA, ColA= mat.ColA,
-                    RowB =mat.RowB, ColB = mat.ColB, Operation = OpType.Solution
-                });
-            }
-            return View(mat);
-        }
-        
-        [HttpPost]
-        public IActionResult OpSol(InfoOp op)
-        {
-            if(ModelState.IsValid){
-                Matrix A = op.Data.FillMat(op.RowA,op.ColA, 0);
-                Matrix b = op.Data.FillMat(op.RowB,op.ColB, op.RowA*op.ColA);
-                Matrix inv = !A;
-                if(!inv.IsMatOk){
-                    string[] error = {
-                        "Inverse matrix is not possible to obtain.",
-                        "System have dependent rows and is no linearly independent.",
-                        "Thus, system has many or no solution whatsoever."
-                    };
-                    return View("Error",error);
-                }
-                var C = new MatrixViewModel(){Result = inv*b};
-                return View("Result",C);
-            }
-            return View("Gen2Mat", new MatrixViewModel{RowA = op.RowA, ColA = op.ColA,
-                RowB = op.RowB, ColB = op.ColB, Operation = OpType.Solution});
-        }
-        
-        public IActionResult OpAns(InfoOp op /* InfoAns ans */){
-            switch (op.Operation)
-            {
-                case OpType.Addition:{
-                    var M = new MatrixViewModel{}; //create ToArray()
-                    break;
-                    //Create class InfoAns which will substitute MatrixViewModel in this one
-                }
-            }
-            return View();
+            return View(new InfoOp{RowA=2,ColA=2,RowB=2,ColB=2, Operation=OpType.ResizeA});
         }
 
         public IActionResult Privacy()

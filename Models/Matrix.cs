@@ -136,8 +136,8 @@ namespace Matrices.Models
                     for(int i=r+1;i<A.Row;++i){
                         if(!AI[i][r].IsZero()){
                             var temp = new List<double>(AI[r]);
-                            AI[r] = new List<double>(AI[i]);
-                            AI[i] = new List<double>(temp);
+                            AI[r] = AI[i];
+                            AI[i] = temp;
                             state = true;
                             break;
                         }

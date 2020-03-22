@@ -1,0 +1,64 @@
+@model Matrices.Models.InfoOp
+
+@if (Model.Result != null)
+{
+    <div class="row">
+        <div class="col text-center">
+            @{
+                string msg = "";
+                switch(Model.Operation){
+                    case OpType.Solution:{
+                        msg = "Ax = B";
+                        break;
+                    }
+                    case OpType.Addition:{
+                        msg = "A+B";
+                        break;
+                    }
+                    case OpType.Substraction:{
+                        msg = "A-B";
+                        break;
+                    }
+                    case OpType.Multiplication:{
+                        msg = "A*B";
+                        break;
+                    }
+                    case OpType.InverseA:{
+                        msg = "A^-1";
+                        break;
+                    }
+                    case OpType.InverseB:{
+                        msg = "B^-1";
+                        break;
+                    }
+                    case OpType.TransposeA:{
+                        msg = "A^T";
+                        break;
+                    }    
+                    case OpType.TransposeB:{
+                        msg = "B^T";
+                        break;
+                    }    
+                    default:{
+                        msg = "Result";
+                        break;
+                    }
+                }
+            }
+            <h3>@msg :</h3><br>
+            <table class="table table-bordered">
+                <tbody>
+                    @foreach (List<double> row in Model.Result)
+                    {
+                        <tr>
+                            @foreach (double val in row)
+                            {
+                                <td>@(String.Format("{0:F4}",val))</td>
+                            }
+                        </tr>
+                    } 
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

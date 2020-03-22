@@ -1,0 +1,145 @@
+@model Matrices.Models.InfoOp
+@{
+    ViewData["Title"] = "Ops Mat";
+    ViewData["CurrentPage"] = Context.Request.Path;
+}
+
+<div class="text-center row">
+    <div class="col">
+        <h1 class="display-4">Escriba las Matrices</h1>
+    </div>
+</div>
+<div class="text-center row">
+    <form asp-controller="Home" asp-action="Operation" method="post">
+        <p>Matrix A</p><br>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Row/Column</span>
+            </div>
+            <input type="text" class="form-control" name="RowA" value="@Model.RowA">
+            <input type="text" class="form-control" name="ColA" value="@Model.ColA">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary" name="Operation" value="@((int)OpType.ResizeA)">
+                    <i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        @for (int i = 0; i < Model.RowA; i++)
+        {
+            <div class="row">
+            @for (int j = 0; j < Model.ColA; j++)
+            {
+                <div class="col">
+                    <small class="text-secondary">A@(i)@(j)</small>
+                    <input type="text" class="form-control" name="Data" value="@(Model?.MatrixA?[i][j]??0)" >
+                </div> 
+            }
+            <br>
+            </div>
+        }
+        <br>
+        <p>Matrix B</p><br>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Row/Column</span>
+            </div>
+            <input type="text" class="form-control" name="RowB" value="@Model.RowB">
+            <input type="text" class="form-control" name="ColB" value="@Model.ColB">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary" name="Operation" value="@((int)OpType.ResizeB)">
+                    <i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        @for (int i = 0; i < Model.RowB; i++)
+        {
+            <div class="row">
+            @for (int j = 0; j < Model.ColB; j++)
+            {
+                <div class="col">
+                    <small class="text-secondary">B@(i)@(j)</small>
+                    <input type="text" class="form-control" name="Data" value="@(Model?.MatrixB?[i][j]??0)" >
+                </div> 
+            }
+            <br>
+            </div>
+        }
+        <br>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <br>
+        <partial name="PartialCustomError.cshtml"/>
+        <partial name="PartialResult.cshtml"/>
+        <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+            <a class="navbar-brand"asp-controller="Home" asp-action="Operation">Reset / Operations</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbarOp">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbarOp">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.Swap)">
+                                A<-->B
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.Addition)">
+                                A+B
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.Substraction)">
+                                A-B
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.Multiplication)">
+                                A*B
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.TransposeA)">
+                                A^T
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.TransposeB)">
+                                B^T
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.InverseA)">
+                                A^-1
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.InverseB)">
+                                B^-1
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-link text-white" 
+                                name="Operation" value="@((int)OpType.Solution)">
+                                Ax = B
+                                <i class="fa fa-calculator fa-fw" aria-hidden="true"></i>
+                            </button>
+                    </li>
+            </div>  
+        </nav>
+    </form>
+</div>

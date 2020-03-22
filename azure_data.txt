@@ -1,0 +1,15 @@
+}
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "cloningInfo": null,
+  "containerSize": 0,
+  "dailyMemoryTimeQuota": 0,
+  "defaultHostName": "matrixops.azurewebsites.net",
+  "deploymentLocalGitUrl": "https://JoseAP89@matrixops.scm.azurewebsites.net/MatrixOps.git",
+  "enabled": true,
+  "enabledHostNames": [
+    "matrixops.azurewebsites.net",
+    "matrixops.scm.azurewebsites.net"
+}

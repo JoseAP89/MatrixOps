@@ -36,3 +36,4 @@
 /home/josealvarez/Documents/Engineering/Projects/DOTNET/Matrices/obj/Debug/netcoreapp3.0/Razor/Views/Home/Operation.cshtml.g.cs
 /home/josealvarez/Documents/Engineering/Projects/DOTNET/Matrices/obj/Debug/netcoreapp3.0/Razor/Views/Home/PartialResult.cshtml.g.cs
 /home/josealvarez/Documents/Engineering/Projects/DOTNET/Matrices/obj/Debug/netcoreapp3.0/Razor/Views/Home/PartialCustomError.cshtml.g.cs
+/home/josealvarez/Documents/Engineering/Projects/DOTNET/Matrices/obj/Debug/netcoreapp3.0/Razor/Views/Home/PartialRto.cshtml.g.cs

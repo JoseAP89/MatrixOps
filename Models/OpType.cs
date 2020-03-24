@@ -12,6 +12,8 @@ namespace Matrices.Models
         Solution,
         ResizeA,
         ResizeB,
-        Swap
+        Swap,
+        RtoA,
+        RtoB
     }
 }

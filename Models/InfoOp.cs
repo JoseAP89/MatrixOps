@@ -6,7 +6,7 @@ namespace Matrices.Models
     public class InfoOp:IValidatableObject
     {
         [Range(1, 10)]
-        public int RowA { get; set; }
+        public int RowA {get;set;}
 
         [Range(1, 10)]
         public int ColA { get; set; }
@@ -16,6 +16,9 @@ namespace Matrices.Models
 
         [Range(1, 10)]
         public int ColB { get; set; }
+
+        public int RowR { get; set; }
+        public int ColR { get; set; }
 
         public OpType Operation { get; set; }
         public Matrix MatrixA { get; set; }

@@ -8,35 +8,35 @@
                 string msg = "";
                 switch(Model.Operation){
                     case OpType.Solution:{
-                        msg = "Ax = B";
+                        msg = "Ax <i class=\"fas fa-equals\"></i> B";
                         break;
                     }
                     case OpType.Addition:{
-                        msg = "A+B";
+                        msg = "A <i class=\"fas fa-plus\"></i> B";
                         break;
                     }
                     case OpType.Substraction:{
-                        msg = "A-B";
+                        msg = "A <i class=\"fas fa-minus\"></i> B";
                         break;
                     }
                     case OpType.Multiplication:{
-                        msg = "A*B";
+                        msg = "A <i class=\"fas fa-times\"></i> B";
                         break;
                     }
                     case OpType.InverseA:{
-                        msg = "A^-1";
+                        msg = "A<sup>-1</sup>";
                         break;
                     }
                     case OpType.InverseB:{
-                        msg = "B^-1";
+                        msg = "B<sup>-1</sup>";
                         break;
                     }
                     case OpType.TransposeA:{
-                        msg = "A^T";
+                        msg = "A<sup>T</sup>";
                         break;
                     }    
                     case OpType.TransposeB:{
-                        msg = "B^T";
+                        msg = "B<sup>T</sup>";
                         break;
                     }    
                     default:{
@@ -45,7 +45,8 @@
                     }
                 }
             }
-            <h3>@msg :</h3><br>
+            <h4>Matrix R</h4>
+            <h4>@Html.Raw(msg):</h4><br>
             <table class="table table-bordered">
                 <tbody>
                     @foreach (List<double> row in Model.Result)

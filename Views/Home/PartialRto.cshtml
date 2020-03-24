@@ -1,0 +1,26 @@
+@model Matrices.Models.InfoOp
+
+@if (Model.Result != null)
+{
+    @foreach (List<double> row in Model.Result)
+    {
+        @foreach (double val in row)
+        {
+            <input type="hidden" name="Data" value="@val" >
+        }
+    }
+    <li class="nav-item">
+        <button type="submit" class="nav-link btn btn-link text-white" 
+            name="Operation" value="@((int)OpType.RtoA)">
+            R <i class="fas fa-arrow-right"></i> A
+            <i class="fas fa-calculator" aria-hidden="true"></i>
+        </button>
+    </li>
+    <li class="nav-item">
+        <button type="submit" class="nav-link btn btn-link text-white" 
+            name="Operation" value="@((int)OpType.RtoB)">
+            R <i class="fas fa-arrow-right"></i> B
+            <i class="fas fa-calculator" aria-hidden="true"></i>
+        </button>
+    </li>
+}
